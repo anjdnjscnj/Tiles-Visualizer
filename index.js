@@ -1,6 +1,10 @@
 // Declaring variables
 var i,flagW = 1, flagF = 1, flag = 0, dec=0, wallid = 2, floorid = 2;
 var clength, cwidth, dlength, dwidth;
+var selectedRoom = 'living'; // Default room
+var currentRotationY = 0;
+var currentRotationX = -10;
+var currentZoom = 1;
 
 var contactsRef = firebase.database().ref('Tiles');
 var dbw = []
@@ -87,9 +91,11 @@ $(document).ready(function(){
   wnf();
   sn2();
   sn3();
+  sn4();
   grt();
   uploadTiles();
   tilesInfo();
+  setup3DVideo();
   checkboxes();
 })
 
@@ -785,6 +791,7 @@ var filt = document.getElementById("SC");
 var btn = filt.getElementsByClassName("filterr");
 var pat = document.getElementById("wallFloor");
 var btns = pat.getElementsByClassName("patternn");
+var room = pat.getElementsByClassName("roomm");
 var current = pat.getElementsByClassName("act");
 for (var i = 0; i < btns.length; i++) {
     btns[i].addEventListener("click", function(){
@@ -808,8 +815,11 @@ for (var i = 0; i < btns.length; i++) {
 			document.getElementById("FsideNav3").style.width = "280px";}
 
 			document.getElementById("sideNav2").style.width = "0";
+			document.getElementById("roomNav").style.width = "0";
 			if(btn[0].className == "filterr active")
 			btn[0].className = btn[0].className.replace(" active", "");
+			if(room[0].className == "roomm active")
+			room[0].className = room[0].className.replace(" active", "");
 		}
 	});
 }
@@ -822,6 +832,7 @@ var filt = document.getElementById("SC");
 var btns = filt.getElementsByClassName("filterr");
 var pat = document.getElementById("wallFloor");
 var btn = pat.getElementsByClassName("patternn");
+var room = pat.getElementsByClassName("roomm");
 for (var i = 0; i < btns.length; i++) {
     btns[i].addEventListener("click", function(){
 		if(this.className == "filterr active"){
@@ -834,15 +845,46 @@ for (var i = 0; i < btns.length; i++) {
 			document.getElementById("sideNav2").style.width = "300px";
 			document.getElementById("WsideNav3").style.width = "0";
 			document.getElementById("FsideNav3").style.width = "0";
+			document.getElementById("roomNav").style.width = "0";
 
 			if(btn[0].className == "patternn active")
 				btn[0].className = btn[0].className.replace(" active", "");
+			if(room[0].className == "roomm active")
+				room[0].className = room[0].className.replace(" active", "");
 
 		}
 	});
 }
 }
 
+function sn4(){
+var pat = document.getElementById("wallFloor");
+var btns = pat.getElementsByClassName("roomm");
+var filt = document.getElementById("SC");
+var btn1 = filt.getElementsByClassName("filterr");
+var btn2 = pat.getElementsByClassName("patternn");
+for (var i = 0; i < btns.length; i++) {
+    btns[i].addEventListener("click", function(){
+		if(this.className == "roomm active"){
+			document.getElementById("roomNav").style.width = "0";
+			this.className = this.className.replace(" active", "");
+		}
+		else
+		{
+			this.className += " active";
+			document.getElementById("roomNav").style.width = "300px";
+			document.getElementById("sideNav2").style.width = "0";
+			document.getElementById("WsideNav3").style.width = "0";
+			document.getElementById("FsideNav3").style.width = "0";
+
+			if(btn1[0].className == "filterr active")
+				btn1[0].className = btn1[0].className.replace(" active", "");
+			if(btn2[0].className == "patternn active")
+				btn2[0].className = btn2[0].className.replace(" active", "");
+		}
+	});
+}
+}
 
 function closesn(){
 
@@ -850,6 +892,7 @@ function closesn(){
 	var btn1 = filt.getElementsByClassName("filterr");
 	var pat = document.getElementById("wallFloor");
 	var btn2 = pat.getElementsByClassName("patternn");
+	var btn3 = pat.getElementsByClassName("roomm");
 	var btn = document.getElementsByClassName("closebtn");
 
 
@@ -863,6 +906,11 @@ function closesn(){
 			document.getElementById("FsideNav3").style.width = "0";
 			setTimeout(closeSideNav,200);
 			btn2[0].className = btn2[0].className.replace(" active", "");
+		}
+		else if(btn3[0].className == "roomm active"){
+			document.getElementById("roomNav").style.width = "0";
+			setTimeout(closeSideNav,200);
+			btn3[0].className = btn3[0].className.replace(" active", "");
 		}
 		else {
 			closeSideNav();
@@ -913,6 +961,62 @@ function closeFBaseCombo(){
     document.getElementById("FBC").style.height = "0";
 }
 
+function closeRoomNav() {
+    var pat = document.getElementById("wallFloor");
+    var room = pat.getElementsByClassName("roomm");
+    document.getElementById("roomNav").style.width = "0";
+    if(room[0].className == "roomm active")
+        room[0].className = room[0].className.replace(" active", "");
+}
+
+function selectRoom(roomType) {
+    selectedRoom = roomType;
+    
+    // Remove selected class from all room options
+    var roomOptions = document.getElementsByClassName('room-option');
+    for(var i = 0; i < roomOptions.length; i++) {
+        roomOptions[i].classList.remove('selected');
+    }
+    
+    // Add selected class to clicked room
+    event.target.classList.add('selected');
+    
+    // Update room-specific styling
+    updateRoomStyling(roomType);
+    
+    // Close room navigation
+    setTimeout(function() {
+        closeRoomNav();
+    }, 500);
+}
+
+function updateRoomStyling(roomType) {
+    var wallElement = document.getElementById('wall');
+    var floorElement = document.getElementById('div3');
+    
+    // Apply room-specific background colors and styling
+    switch(roomType) {
+        case 'kitchen':
+            wallElement.style.backgroundColor = '#f8f8f8';
+            break;
+        case 'bathroom':
+            wallElement.style.backgroundColor = '#e6f3ff';
+            break;
+        case 'balcony':
+            wallElement.style.backgroundColor = '#f0fff0';
+            break;
+        case 'dining':
+            wallElement.style.backgroundColor = '#fff8dc';
+            break;
+        case 'bedroom':
+            wallElement.style.backgroundColor = '#fdf5e6';
+            break;
+        case 'living':
+        default:
+            wallElement.style.backgroundColor = 'whitesmoke';
+            break;
+    }
+}
 
 
 
@@ -1060,6 +1164,86 @@ span.onclick = function() {
 	}
 }
 
+function setup3DVideo(){
+    var modal = document.getElementById('video3DModal');
+    var btn = document.getElementById("btn3DVideo");
+
+    btn.onclick = function() {
+        modal.style.display = "block";
+        update3DPreview();
+    }
+
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+}
+
+function close3DVideo() {
+    document.getElementById('video3DModal').style.display = "none";
+}
+
+function generate3DVideo() {
+    document.getElementById('video3DModal').style.display = "block";
+    update3DPreview();
+}
+
+function update3DPreview() {
+    // Get current wall and floor tile images
+    var containerW3 = document.getElementById("btnContainerW3");
+    var currentW3 = containerW3.getElementsByClassName("active");
+    
+    var containerF3 = document.getElementById("btnContainerF3");
+    var currentF3 = containerF3.getElementsByClassName("active");
+    
+    // Update 3D room walls and floor
+    var walls = document.querySelectorAll('.wall');
+    var floor3d = document.querySelector('.floor-3d');
+    
+    if(currentW3.length > 0) {
+        walls.forEach(function(wall) {
+            wall.style.backgroundImage = 'url(' + currentW3[0].value + ')';
+            wall.style.backgroundSize = '100px 100px';
+        });
+    }
+    
+    if(currentF3.length > 0) {
+        floor3d.style.backgroundImage = 'url(' + currentF3[0].value + ')';
+        floor3d.style.backgroundSize = '100px 100px';
+    }
+}
+
+function rotate3DRoom(direction) {
+    if(direction === 'left') {
+        currentRotationY -= 45;
+    } else {
+        currentRotationY += 45;
+    }
+    
+    var roomPreview = document.getElementById('roomPreview');
+    roomPreview.style.transform = 'translate(-50%, -50%) rotateX(' + currentRotationX + 'deg) rotateY(' + currentRotationY + 'deg) scale(' + currentZoom + ')';
+}
+
+function zoom3DRoom(direction) {
+    if(direction === 'in') {
+        currentZoom = Math.min(currentZoom + 0.2, 2);
+    } else {
+        currentZoom = Math.max(currentZoom - 0.2, 0.5);
+    }
+    
+    var roomPreview = document.getElementById('roomPreview');
+    roomPreview.style.transform = 'translate(-50%, -50%) rotateX(' + currentRotationX + 'deg) rotateY(' + currentRotationY + 'deg) scale(' + currentZoom + ')';
+}
+
+function resetView() {
+    currentRotationY = 0;
+    currentRotationX = -10;
+    currentZoom = 1;
+    
+    var roomPreview = document.getElementById('roomPreview');
+    roomPreview.style.transform = 'translate(-50%, -50%) rotateX(' + currentRotationX + 'deg) rotateY(' + currentRotationY + 'deg) scale(' + currentZoom + ')';
+}
 function tilesInfo(){
 
 	var modal = document.getElementById('info_panel');

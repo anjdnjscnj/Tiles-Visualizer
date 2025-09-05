@@ -328,6 +328,27 @@ form.example::after {
     background: #e42c33;
 }
 
+.roomm {
+	background: #000;
+    display: inline-block;
+    padding: 0px 15px;
+    font-size: 18px;
+    color: #fff;
+    border: 1px solid #f7941e;
+    line-height: 48px;
+    border-radius:50%;
+	float : right;
+	margin-right: 5px;
+}
+
+.roomm.active {
+    background: #f7941e;
+    border-radius:0%;
+}
+
+.roomm:hover{
+    background: #e42c33;
+}
 .resett {
 
 	border: 1px solid #e42c33;
@@ -396,6 +417,9 @@ form.example::after {
 	color : white;
 }
 
+#btn3DVideo {
+	margin-right: 5px;
+}
  .wf{
 
 	border: 1px solid #e42c33;
@@ -602,6 +626,60 @@ form.example::after {
 
 }
 
+.sidenav4 {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 400px;
+    background:rgba(0,0,0,0.85);
+    overflow: hidden;
+    -webkit-transition-duration: 0.2s;
+    transition-duration: 0.2s;
+}
+
+.room-container {
+    padding: 20px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+
+.room-option {
+    background: rgba(255,255,255,0.1);
+    border: 2px solid #f7941e;
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+    color: #fff;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: Lato;
+}
+
+.room-option:hover {
+    background: #f7941e;
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(247, 148, 30, 0.3);
+}
+
+.room-option.selected {
+    background: #e42c33;
+    border-color: #e42c33;
+}
+
+.room-option i {
+    font-size: 30px;
+    display: block;
+    margin-bottom: 10px;
+}
+
+.room-option span {
+    font-size: 14px;
+    font-weight: 600;
+    text-transform: uppercase;
+}
 
 
 .baseCombo {
@@ -817,6 +895,102 @@ form.example::after {
 	background-color:#e42c33;
 }
 
+.video-modal {
+    width: 80%;
+    max-width: 1000px;
+}
+
+.video-container {
+    padding: 20px;
+    text-align: center;
+}
+
+.scene-3d {
+    width: 100%;
+    height: 400px;
+    perspective: 1000px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 10px;
+    overflow: hidden;
+    position: relative;
+}
+
+.room-preview {
+    width: 300px;
+    height: 300px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotateX(-10deg) rotateY(0deg);
+    transform-style: preserve-3d;
+    transition: transform 0.5s ease;
+}
+
+.room-walls {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+}
+
+.wall {
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    background-size: cover;
+    background-repeat: repeat;
+    border: 2px solid #333;
+}
+
+.wall-front {
+    transform: translateZ(150px);
+}
+
+.wall-back {
+    transform: translateZ(-150px) rotateY(180deg);
+}
+
+.wall-left {
+    transform: rotateY(-90deg) translateZ(150px);
+}
+
+.wall-right {
+    transform: rotateY(90deg) translateZ(150px);
+}
+
+.floor-3d {
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    background-size: cover;
+    background-repeat: repeat;
+    transform: rotateX(-90deg) translateZ(150px);
+    border: 2px solid #333;
+}
+
+.video-controls {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.control-btn {
+    background: #f7941e;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-family: Lato;
+    font-size: 12px;
+    transition: background 0.3s ease;
+}
+
+.control-btn:hover {
+    background: #e42c33;
+}
 .tileImage{
   width: 40%;
   margin: 5%;

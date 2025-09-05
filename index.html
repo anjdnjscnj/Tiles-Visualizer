@@ -40,6 +40,7 @@
 				<button id='Wall' class="wf act"  onclick="wnf(this.id)"> WALL TILES </button>
 				<button id='Floor' class="wf" onclick="wnf(this.id)"> FLOOR TILES </button>
 				<button id='Pattern' class="patternn" ><i class="fa fa-delicious"></i></button>
+				<button id='Room' class="roomm" ><i class="fa fa-home"></i></button>
 				<button class="resett" onclick="window.location.reload()"><i class="fa fa-ban fa-lg"></i>  </button>
 		   </div>
 
@@ -50,6 +51,7 @@
 				</form>
 				<button id='Filter' class="filterr" ><i class="fa fa-filter"></i></button>
 				<button id='btnGrout' class="btn-sc"> GROUT </button>
+				<button id='btn3DVideo' class="btn-sc"> 3D VIDEO </button>
 		   </div>
 
 			<div id="PGY" class="btn-group">
@@ -382,6 +384,42 @@
 			</div>
 		</div>
 
+		<div id="roomNav" class="sidenav4">
+			<div class="upper">
+				SELECT ROOM TYPE
+				<a onclick="closeRoomNav()" class="clearfilter" style="float:right">
+					<i class="fa fa-times"></i>
+					CLOSE
+				</a>
+			</div>
+			<div class="room-container">
+				<div class="room-option" onclick="selectRoom('kitchen')">
+					<i class="fa fa-cutlery"></i>
+					<span>Kitchen</span>
+				</div>
+				<div class="room-option" onclick="selectRoom('bathroom')">
+					<i class="fa fa-bath"></i>
+					<span>Bathroom</span>
+				</div>
+				<div class="room-option" onclick="selectRoom('balcony')">
+					<i class="fa fa-leaf"></i>
+					<span>Balcony</span>
+				</div>
+				<div class="room-option" onclick="selectRoom('dining')">
+					<i class="fa fa-glass"></i>
+					<span>Dining Room</span>
+				</div>
+				<div class="room-option" onclick="selectRoom('bedroom')">
+					<i class="fa fa-bed"></i>
+					<span>Bedroom</span>
+				</div>
+				<div class="room-option" onclick="selectRoom('living')">
+					<i class="fa fa-television"></i>
+					<span>Living Room</span>
+				</div>
+			</div>
+		</div>
+
 		<div id="WsideNav3" class="sidenav3">
 			<br>
 			<div id = "btnContainerW5">
@@ -433,6 +471,7 @@
 			<button   class="btn-grp" onclick="genScreenshot()"> <i class="fa fa-floppy-o" ></i> </button>
 			<button   class="btn-grp" onclick="printscreen()"> <i class="fa fa-print"></i>
 			<button   class="btn-grp" onclick="mail()"> <i class="fa fa-envelope" ></i> </button>
+			<button   class="btn-grp" onclick="generate3DVideo()"> <i class="fa fa-video-camera"></i> </button>
 			<button   class="btn-grp" onclick="toggleFullScreen()"> <i id = "FS" class="fa fa-expand"></i> </button>
 			<button   class="btn-grp" onclick="closeUpNav()"> <i class="fa fa-times"></i> </button>
 		</div>
@@ -469,6 +508,32 @@
 						</div>
 					</h3>
 		  	</div>
+		</div>
+
+		<div id="video3DModal" class="modal">
+			<div class="modal-content video-modal">
+				<h3><a href="javascript:void(0)" class="close" onclick="close3DVideo()"><i class="fa fa-close"></i></a> 3D ROOM EXPERIENCE </h3>
+				<div class="video-container">
+					<div id="3d-scene" class="scene-3d">
+						<div class="room-preview" id="roomPreview">
+							<div class="room-walls">
+								<div class="wall wall-front"></div>
+								<div class="wall wall-back"></div>
+								<div class="wall wall-left"></div>
+								<div class="wall wall-right"></div>
+								<div class="floor-3d"></div>
+							</div>
+						</div>
+					</div>
+					<div class="video-controls">
+						<button onclick="rotate3DRoom('left')" class="control-btn"><i class="fa fa-rotate-left"></i> Rotate Left</button>
+						<button onclick="rotate3DRoom('right')" class="control-btn"><i class="fa fa-rotate-right"></i> Rotate Right</button>
+						<button onclick="zoom3DRoom('in')" class="control-btn"><i class="fa fa-search-plus"></i> Zoom In</button>
+						<button onclick="zoom3DRoom('out')" class="control-btn"><i class="fa fa-search-minus"></i> Zoom Out</button>
+						<button onclick="resetView()" class="control-btn"><i class="fa fa-refresh"></i> Reset View</button>
+					</div>
+				</div>
+			</div>
 		</div>
 
 		<div id="myModal1" class="modal">
